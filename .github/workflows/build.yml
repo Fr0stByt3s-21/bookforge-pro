@@ -3,7 +3,7 @@ name: Build BookForge Pro
 on:
   push:
     tags:
-      - 'v*'  # Runs on version tags like v1.0.0
+      - 'v*'
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -29,14 +29,14 @@ jobs:
 
       - name: Build executable
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
+          if [ "$RUNNER_OS" = "Windows" ]; then
             pyinstaller --onefile --icon=assets/icon.ico gui_app.py --name BookForgePro
           else
             pyinstaller --onefile --icon=assets/icon.icns gui_app.py --name BookForgePro
           fi
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}-build
-          path: dist/BookForgePro*
+          path: dist/
