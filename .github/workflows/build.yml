@@ -6,37 +6,38 @@ on:
       - 'v*'
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
-
+  build-windows:
+    runs-on: windows-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
+      - run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-
-      - name: Build executable
-        run: |
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            pyinstaller --onefile --icon=assets/icon.ico gui_app.py --name BookForgePro
-          else
-            pyinstaller --onefile --icon=assets/icon.icns gui_app.py --name BookForgePro
-          fi
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - run: |
+          pyinstaller --onefile --icon=assets/icon.ico gui_app.py --name BookForgePro
+      - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-build
+          name: windows-build
+          path: dist/
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - run: |
+          pyinstaller --onefile --icon=assets/icon.icns gui_app.py --name BookForgePro
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-build
           path: dist/
