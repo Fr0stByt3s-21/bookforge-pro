@@ -1,5 +1,3 @@
-# bookforge-pro
-“AI-powered book writer using Gemini + Audiobook with GUI/CLI/Docker.”
 # 📚 BookForge Pro
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
@@ -25,7 +23,7 @@
 
 ## 🖼 Preview
 ![BookForge Pro GUI](docs/screenshot.png)  
-*(Replace with actual screenshot from your GUI)*
+*(Replace this with actual screenshot from your GUI later)*
 
 ---
 
