@@ -9,47 +9,57 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: |
-          cd $env:GITHUB_WORKSPACE
+          cd ${{ github.workspace }}
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
+
       - name: Build Windows EXE
         run: |
-          cd $env:GITHUB_WORKSPACE
-          dir
-          pyinstaller --onefile --icon=assets/icon.ico gui_app.py --name BookForgePro
-      - name: Upload EXE Artifact
+          cd ${{ github.workspace }}
+          pyinstaller --onefile --icon=${{ github.workspace }}/assets/icon.ico ${{ github.workspace }}/gui_app.py --name BookForgePro
+
+      - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-build
+          name: BookForgePro-Windows
           path: dist/BookForgePro.exe
 
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: |
-          cd $GITHUB_WORKSPACE
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
-      - name: Build MacOS App
+          cd ${{ github.workspace }}
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.txt
+          pip3 install pyinstaller
+
+      - name: Build macOS App
         run: |
-          cd $GITHUB_WORKSPACE
-          ls
-          pyinstaller --onefile --icon=assets/icon.icns gui_app.py --name BookForgePro
-      - name: Upload Mac Artifact
+          cd ${{ github.workspace }}
+          pyinstaller --onefile --windowed --icon=${{ github.workspace }}/assets/icon.icns ${{ github.workspace }}/gui_app.py --name BookForgePro
+
+      - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-build
+          name: BookForgePro-macOS
           path: dist/BookForgePro
