@@ -33,3 +33,14 @@
 ```bash
 git clone https://github.com/Fr0stByt3s-21/bookforge-pro.git
 cd bookforge-pro
+```
+
+### 2. Install Requirements
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Launch GUI
+```bash
+python gui_app.py
+```
