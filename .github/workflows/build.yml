@@ -21,8 +21,10 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
+          pip install --no-cache-dir -r requirements.txt
+          pip install --no-cache-dir pyinstaller
+      - name: Lint
+        run: python -m py_compile bookforge_core.py cli_app.py gui_app.py gui_app_main.py build_app.py client_config.py
 
       - name: Build Windows EXE
         run: |
@@ -50,8 +52,10 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           python3 -m pip install --upgrade pip
-          pip3 install -r requirements.txt
-          pip3 install pyinstaller
+          pip3 install --no-cache-dir -r requirements.txt
+          pip3 install --no-cache-dir pyinstaller
+      - name: Lint
+        run: python3 -m py_compile bookforge_core.py cli_app.py gui_app.py gui_app_main.py build_app.py client_config.py
 
       - name: Build macOS App
         run: |
