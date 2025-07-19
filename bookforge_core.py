@@ -60,11 +60,21 @@ def write_chapter(title, research_notes):
     return path
 
 def compile_book():
-    subprocess.run("cat chapters/*.md > final_book.md", shell=True)
+    """Combine chapter files into a single Markdown book."""
+    with open("final_book.md", "w", encoding="utf-8") as outfile:
+        for filename in sorted(os.listdir("chapters")):
+            if filename.endswith(".md"):
+                with open(os.path.join("chapters", filename), "r", encoding="utf-8") as infile:
+                    outfile.write(infile.read())
+                    outfile.write("\n\n")
 
-def export_formats():
-    subprocess.run("pandoc final_book.md -o final_book.pdf", shell=True)
-    subprocess.run("pandoc final_book.md -o final_book.epub", shell=True)
+def export_formats(formats):
+    """Export the compiled book to the requested formats."""
+    if "pdf" in formats:
+        subprocess.run("pandoc final_book.md -o final_book.pdf", shell=True)
+    if "epub" in formats:
+        subprocess.run("pandoc final_book.md -o final_book.epub", shell=True)
+    # Markdown export is simply the existing file
 
 def generate_audiobook():
     with open("final_book.md", "r") as f:
@@ -84,7 +94,7 @@ def run_pipeline(topic, words, audiobook, export_formats_list):
         research = research_chapter(title)
         write_chapter(title, research)
     compile_book()
-    export_formats()
+    export_formats(export_formats_list)
     if audiobook == "yes":
         generate_audiobook()
     print("✅ BookForge Pro: All steps completed!")
