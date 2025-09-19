@@ -7,8 +7,9 @@ def main():
     parser.add_argument("--words", type=int, default=30000, help="Word count")
     parser.add_argument("--audiobook", choices=["yes","no"], default="no", help="Generate audiobook?")
     parser.add_argument("--export", default="pdf,epub", help="Export formats")
+    parser.add_argument("--voice-id", default="21m00Tcm4TlvDq8ikWAM", help="ElevenLabs Voice ID")
     args = parser.parse_args()
-    run_pipeline(args.topic, args.words, args.audiobook, args.export.split(","))
+    run_pipeline(args.topic, args.words, args.audiobook, args.export.split(","), args.voice_id)
 
 if __name__ == "__main__":
     main()

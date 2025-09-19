@@ -45,6 +45,7 @@ pip install -r requirements.txt
 export GEMINI_API_KEY=your_gemini_key
 export ELEVENLABS_API_KEY=your_elevenlabs_key
 ```
+**Note on ElevenLabs Voice ID:** To generate audiobooks, you need a Voice ID. You can find your available voice IDs [here](https://elevenlabs.io/voice-lab). The default Voice ID is for "Rachel".
 
 ### 4. Run GUI
 ```bash
@@ -53,7 +54,7 @@ python gui_app.py
 
 ### 5. Run CLI
 ```bash
-python cli_app.py --topic "My Book" --words 30000 --export pdf,epub --audiobook yes
+python cli_app.py --topic "My Book" --words 30000 --export pdf,epub --audiobook yes --voice-id <your_voice_id>
 ```
 
 ### 6. Docker

@@ -76,17 +76,17 @@ def export_formats(formats):
         subprocess.run("pandoc final_book.md -o final_book.epub", shell=True)
     # Markdown export is simply the existing file
 
-def generate_audiobook():
+def generate_audiobook(voice_id="21m00Tcm4TlvDq8ikWAM"):
     with open("final_book.md", "r") as f:
         text = f.read()
-    url = "https://api.elevenlabs.io/v1/text-to-speech/YOUR_VOICE_ID"
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
     headers = {"xi-api-key": ELEVENLABS_API_KEY, "Content-Type": "application/json"}
     payload = {"text": text[:5000], "voice_settings": {"stability": 0.7, "similarity_boost": 0.8}}
     response = requests.post(url, headers=headers, json=payload)
     with open("audiobook.mp3", "wb") as f:
         f.write(response.content)
 
-def run_pipeline(topic, words, audiobook, export_formats_list):
+def run_pipeline(topic, words, audiobook, export_formats_list, voice_id="21m00Tcm4TlvDq8ikWAM"):
     init_gemini()
     outline = generate_outline(topic, words)
     for chapter in outline.get("chapters", []):
@@ -96,5 +96,5 @@ def run_pipeline(topic, words, audiobook, export_formats_list):
     compile_book()
     export_formats(export_formats_list)
     if audiobook == "yes":
-        generate_audiobook()
+        generate_audiobook(voice_id)
     print("✅ BookForge Pro: All steps completed!")
